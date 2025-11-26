@@ -29,3 +29,9 @@ Authentication is implemented using **JSON Web Tokens (JWT)**.
 
 ## 🗂 Project Structure
 
+## 📎 GitHub Repository
+
+You can find the complete project source code here:
+
+👉 **https://github.com/xlldwe/coursera-nodejs-book-review**
+
