@@ -1,18 +1,13 @@
 import axios from "axios";
 
-// Task 10 — async callback
 export function getAllBooksCallback(callback) {
-    axios.get("http://localhost:3000/books")
-        .then(response => callback(null, response.data))
-        .catch(err => callback(err));
+    axios.get("http://localhost:3000/books").then((response) => callback(null, response.data)).catch((err) => callback(err));
 }
 
-// Task 11 — Promises
 export function getBookByISBN(isbn) {
     return axios.get(`http://localhost:3000/books/isbn/${isbn}`);
 }
 
-// Task 12 — Author (async/await)
 export async function getByAuthor(author) {
     const res = await axios.get(
         `http://localhost:3000/books/author/${author}`
@@ -20,10 +15,49 @@ export async function getByAuthor(author) {
     return res.data;
 }
 
-// Task 13 — Title (async/await)
 export async function getByTitle(title) {
     const res = await axios.get(
         `http://localhost:3000/books/title/${title}`
     );
     return res.data;
 }
+
+async function runAll() {
+    console.log("=== Task 10: Get all books (callback) ===");
+    await new Promise((resolve) => {
+        getAllBooksCallback((err, data) => {
+            if (err) {
+                console.error("Task 10 Error:", err.message);
+            } else {
+                console.log("Task 10 Books:", data);
+            }
+            resolve();
+        });
+    });
+
+    console.log("\n=== Task 11: Get by ISBN (Promise) ===");
+    try {
+        const res = await getBookByISBN("1");
+        console.log("Task 11 Book with ISBN 1:", res.data);
+    } catch (err) {
+        console.error("Task 11 Error:", err.message);
+    }
+
+    console.log("\n=== Task 12: Get by author (async/await) ===");
+    try {
+        const byAuthor = await getByAuthor("Robert C. Martin");
+        console.log("Task 12 Books by author:", byAuthor);
+    } catch (e) {
+        console.error("Task 12 Error:", e.message);
+    }
+
+    console.log("\n=== Task 13: Get by title (async/await) ===");
+    try {
+        const byTitle = await getByTitle("Clean Code");
+        console.log("Task 13 Books by title:", byTitle);
+    } catch (e) {
+        console.error("Task 13 Error:", e.message);
+    }
+}
+
+runAll();
